@@ -1,0 +1,6 @@
+framework module Pods_With_a_Plan {
+  umbrella header "Pods-With a Plan-umbrella.h"
+
+  export *
+  module * { export * }
+}
