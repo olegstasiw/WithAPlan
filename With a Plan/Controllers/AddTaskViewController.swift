@@ -354,14 +354,14 @@ extension AddTaskViewController: UITextViewDelegate {
 extension AddTaskViewController {
 
     private func showAlert() {
-        let alert = AlertController(title: "Увага", message: "Назва вашого таску пуста. Введіть назву!", preferredStyle: UIAlertController.Style.alert)
+        let alert = AlertController(title: "Warning", message: "Your task name is empty. Enter a name.", preferredStyle: UIAlertController.Style.alert)
         alert.actionWithoutAction()
         self.present(alert, animated: true)
     }
 
     private func showAlertWithAction(task: Task) {
-        let alert = AlertController(title: "Увага", message: "Ви не можете призначити нагадування на час який менший за теперішній! В минуле не повернешся.", preferredStyle: UIAlertController.Style.alert)
-        alert.action(firstTitle: "Виключити нагадування", secondTitle: "Змінити час") {
+        let alert = AlertController(title: "Warning", message: "You cannot set a reminder for a time that is less than the current time.", preferredStyle: UIAlertController.Style.alert)
+        alert.action(firstTitle: "Disable reminder", secondTitle: "Change time") {
             let reminder = Date()
             let isReminder = false
             task.reminder = reminder

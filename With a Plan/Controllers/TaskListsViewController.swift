@@ -150,7 +150,6 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
 
 //MARK: - SearchBar
 extension TaskListsViewController: UISearchBarDelegate {
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
         searchBar.endEditing(true)
     }

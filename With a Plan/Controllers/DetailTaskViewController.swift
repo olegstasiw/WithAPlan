@@ -299,10 +299,10 @@ extension DetailTaskViewController: UITextViewDelegate {
                 constraint.constant = estimatedSize.height
             }
         }
-        let sizze  = CGSize(width: view.frame.width, height: view.frame.height)
         viewScreen.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
-                constraint.constant = estimatedSize.height + sizze.height
+                constraint.constant = view.frame.height + estimatedSize.height + 150
+
             }
         }
     }
@@ -361,14 +361,14 @@ extension DetailTaskViewController: UITextFieldDelegate {
 extension DetailTaskViewController {
 
     private func showAlert() {
-        let alert = AlertController(title: "Увага", message: "Назва вашого таску пуста. Введіть назву!", preferredStyle: UIAlertController.Style.alert)
+        let alert = AlertController(title: "Warning", message: "Your task name is empty. Enter a name.", preferredStyle: UIAlertController.Style.alert)
         alert.actionWithoutAction()
         self.present(alert, animated: true)
     }
 
     private func showAlertWithAction(task: Task, color: UIColor, name: UITextField, note: UITextView, isDone: Bool) {
-        let alert = AlertController(title: "Увага", message: "Ви не можете призначити нагадування на час який менший за теперішній! В минуле не повернешся.", preferredStyle: UIAlertController.Style.alert)
-        alert.action(firstTitle: "Виключити нагадування", secondTitle: "Змінити час") {
+        let alert = AlertController(title: "Warning", message: "You cannot set a reminder for a time that is less than the current time.", preferredStyle: UIAlertController.Style.alert)
+        alert.action(firstTitle: "Disable reminder", secondTitle: "Change time") {
 
             let newModifyDate = Date()
             let newIsReminder = false
