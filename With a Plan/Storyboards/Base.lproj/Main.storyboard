@@ -20,14 +20,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Ujc-0e-z72">
-                                <rect key="frame" x="0.0" y="91" width="320" height="477"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="474"/>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sdy-iS-VOl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sdy-iS-VOl" firstAttribute="bottom" secondItem="Ujc-0e-z72" secondAttribute="bottom" id="F6l-B2-eJu"/>
+                            <constraint firstItem="sdy-iS-VOl" firstAttribute="bottom" secondItem="Ujc-0e-z72" secondAttribute="bottom" constant="50" id="F6l-B2-eJu"/>
                             <constraint firstItem="sdy-iS-VOl" firstAttribute="trailing" secondItem="Ujc-0e-z72" secondAttribute="trailing" id="jIX-P9-wUJ"/>
                             <constraint firstItem="Ujc-0e-z72" firstAttribute="leading" secondItem="sdy-iS-VOl" secondAttribute="leading" id="p2E-jE-za8"/>
                             <constraint firstItem="Ujc-0e-z72" firstAttribute="top" secondItem="sdy-iS-VOl" secondAttribute="top" id="s1B-kQ-cDJ"/>
@@ -1047,8 +1047,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lCV-wo-Ji6" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="IRX-eX-ROD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="IRX-eX-ROD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" name="blackColor"/>
                     </navigationBar>

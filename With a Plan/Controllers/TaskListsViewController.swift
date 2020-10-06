@@ -19,6 +19,11 @@ class TaskListsViewController: UIViewController{
     private var sortedPlanList = StorageManager.shared.realm.objects(TaskList.self)
     private let planList = StorageManager.shared.realm.objects(TaskList.self)
     private var charactersCount = 0
+    let myButton = UIButton()
+    let myView = UIView()
+
+    var anchor: NSLayoutConstraint?
+    var anchor2: NSLayoutConstraint?
 
     //MARK: - Live Cycles Methods
     override func viewDidLoad() {
@@ -26,6 +31,118 @@ class TaskListsViewController: UIViewController{
         appointDelegates()
         registerCell()
         setUI()
+
+        navigationController?.navigationBar.prefersLargeTitles = false
+
+        view.addSubview(myView)
+        myView.translatesAutoresizingMaskIntoConstraints = false
+        myView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        myView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        myView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        myView.widthAnchor.constraint(equalToConstant: view.frame.width ).isActive = true
+        myView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+        myView.addSubview(searchBar)
+
+        myButton.setTitle("+", for: .normal)
+
+        myButton.backgroundColor = .systemGreen
+
+        myView.addSubview(myButton)
+
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        myButton.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.leadingAnchor.constraint(equalTo: myView.leadingAnchor).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: myButton.trailingAnchor, constant: -50).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: myView.bottomAnchor).isActive = true
+//        searchBar.widthAnchor.constraint(equalToConstant: myView.frame.width - 100).isActive = true
+        searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+        anchor = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor)
+        anchor2 = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: 50)
+        anchor?.isActive = true
+
+        myButton.bottomAnchor.constraint(equalTo: myView.bottomAnchor).isActive = true
+        myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        myButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        print(self.tasksTableView.frame.origin.y)
+        print(self.view.frame.origin.y)
+
+        searchBar.searchTextField.clearButtonMode = .never
+//        myButton.layer.cornerRadius = 25
+//        searchBar.backgroundColor = .clear
+//        searchBar.layer.cornerRadius = 25
+    }
+
+//    @objc func keyboardWillShow(sender: NSNotification) {
+//        let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+//        self.view.frame.origin.y -= (keyboardSize?.height ?? 0) - 50
+//        self.myButton.frame.origin.x += myButton.frame.width
+//
+//
+//
+//
+//    }
+//    @objc func keyboardWillHide(sender: NSNotification) {
+//        self.view.frame.origin.y = 0
+//        self.myButton.frame.origin.x -= myButton.frame.width
+//
+//    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+
+                self.view.frame.origin.y -= keyboardSize.height - 50
+                self.tasksTableView.frame.origin.y += keyboardSize.height - 50
+                self.myButton.frame.origin.x += myButton.frame.width
+
+                anchor?.isActive = false
+                anchor2?.isActive = true
+                print(self.tasksTableView.frame.origin.y)
+                print(self.view.frame.origin.y)
+
+//                UIView.animate(withDuration: 5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+//                    self.view.constraints.forEach { constraint in
+//                        if constraint.firstAttribute == .top {
+//                            constraint.constant = keyboardSize.height / 2 + 20
+//
+//                        }
+//                    }
+//                }
+
+
+
+//                navigationController?.navigationBar.prefersLargeTitles = false
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+
+        if self.view.frame.origin.y != 0 {
+
+
+            self.view.frame.origin.y = 0
+            self.tasksTableView.frame.origin.y = 92
+            self.myButton.frame.origin.x -= myButton.frame.width
+            anchor2?.isActive = false
+            anchor?.isActive = true
+            print(self.tasksTableView.frame.origin.y)
+            print(self.view.frame.origin.y)
+//            view.constraints.forEach { constraint in
+//                if constraint.firstAttribute == .top {
+//                    constraint.constant -= (keyboardSize?.height ?? 0) / 2 + 20
+//                }
+//            }
+
+
+
+//            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +180,7 @@ class TaskListsViewController: UIViewController{
     }
 
     private func setUI() {
-        navigationItem.titleView = searchBar
+//        navigationItem.titleView = searchBar
 
         view.backgroundColor = .systemGroupedBackground
 
@@ -195,7 +312,14 @@ extension TaskListsViewController: UISearchBarDelegate {
                 searchBar.resignFirstResponder()
             }
         }
-        
+
+
+//        if searchText.isEmpty {
+//               DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                   searchBar.resignFirstResponder()
+//               }
+//           }
+
         tasksTableView.reloadData()
     }
 }
