@@ -36,8 +36,8 @@ class TaskListsViewController: UIViewController{
 
         view.addSubview(myView)
         myView.translatesAutoresizingMaskIntoConstraints = false
-        myView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        myView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        myView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20).isActive = true
+        myView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         myView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
         myView.widthAnchor.constraint(equalToConstant: view.frame.width ).isActive = true
         myView.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -49,16 +49,18 @@ class TaskListsViewController: UIViewController{
         myButton.backgroundColor = .systemGreen
 
         myView.addSubview(myButton)
+        myView.backgroundColor = .gray
+        myView.layer.cornerRadius = 25
 
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         myButton.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.leadingAnchor.constraint(equalTo: myView.leadingAnchor).isActive = true
+        searchBar.leadingAnchor.constraint(equalTo: myView.leadingAnchor, constant: 50).isActive = true
         searchBar.trailingAnchor.constraint(equalTo: myButton.trailingAnchor, constant: -50).isActive = true
         searchBar.bottomAnchor.constraint(equalTo: myView.bottomAnchor).isActive = true
 //        searchBar.widthAnchor.constraint(equalToConstant: myView.frame.width - 100).isActive = true
         searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        anchor = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor)
+        anchor = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -50)
         anchor2 = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: 50)
         anchor?.isActive = true
 
@@ -148,6 +150,7 @@ class TaskListsViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.applicationIconBadgeNumber = 0
+        sortedPlanList = planList
         tasksTableView.reloadData()
     }
 
@@ -213,7 +216,7 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchBar.text = ""
-        sortedPlanList = planList
+//        sortedPlanList = planList
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
