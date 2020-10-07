@@ -31,6 +31,7 @@ class TaskListsViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.applicationIconBadgeNumber = 0
+        sortedPlanList = planList
         tasksTableView.reloadData()
     }
 
@@ -96,7 +97,6 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         searchBar.text = ""
-        sortedPlanList = planList
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
