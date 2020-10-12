@@ -180,7 +180,10 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         searchBar.text = ""
+<<<<<<< HEAD
         searchBarTextDidEndEditing(searchBar)
+=======
+>>>>>>> master
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
