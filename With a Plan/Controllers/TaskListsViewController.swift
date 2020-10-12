@@ -14,6 +14,12 @@ class TaskListsViewController: UIViewController{
     //MARK: - IBOutlets
     @IBOutlet weak var tasksTableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var addButton: UIButton!
+
+    @IBOutlet weak var buttonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heigthFromViewToSearch: NSLayoutConstraint!
 
     //MARK: - Private Properties
     private var sortedPlanList = StorageManager.shared.realm.objects(TaskList.self)
@@ -26,6 +32,8 @@ class TaskListsViewController: UIViewController{
         appointDelegates()
         registerCell()
         setUI()
+        createObserver()
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +54,7 @@ class TaskListsViewController: UIViewController{
         } else {
             guard let indexPath = tasksTableView.indexPathForSelectedRow else { return }
             let taskList = sortedPlanList[indexPath.row]
-            let segueViewController = segue.destination as! TaskTableViewController
+            let segueViewController = segue.destination as! TaskViewController
             segueViewController.currentList = taskList
         }
     }
@@ -64,13 +72,82 @@ class TaskListsViewController: UIViewController{
     }
 
     private func setUI() {
-        navigationItem.titleView = searchBar
-
         view.backgroundColor = .systemGroupedBackground
 
         navigationController?.navigationBar.tintColor = UIColor.init(named: "barColor");
         navigationController?.navigationBar.barTintColor = UIColor.init(named: "backgroundColor")
         navigationController?.navigationBar.barStyle = UIBarStyle.default;
+        setUIForSearchView()
+    }
+
+    private func setUIForSearchView() {
+        searchView.layer.cornerRadius = searchView.frame.height / 2
+        searchView.backgroundColor = .systemGray4
+        searchBar.layer.borderColor = UIColor.systemGray4.cgColor
+        searchBar.searchTextField.backgroundColor = UIColor.systemGray4
+        searchBar.searchTextField.clearButtonMode = .never
+        searchBar.layer.borderWidth = 1
+        UISearchBar.appearance().tintColor = UIColor.init(named: "barColor")
+
+        addButton.backgroundColor = UIColor.systemGray4
+        addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        addButton.layer.cornerRadius = addButton.frame.height / 3
+
+    }
+
+    private func createObserver() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedFromBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func appMovedFromBackground() {
+        DispatchQueue.main.async {
+            self.searchBar.layer.borderColor = UIColor.systemGray4.cgColor
+        }
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if heigthFromViewToSearch.constant == 50 {
+
+                searchView.layer.cornerRadius = 0
+                heigthFromViewToSearch.constant = keyboardSize.height
+                searchViewWidthConstraint.constant = view.frame.width
+                buttonWidthConstraint.constant = 0
+                addButton.imageEdgeInsets = UIEdgeInsets(top: 0 , left: 0, bottom: 0, right: 0)
+
+                UIView.animate(withDuration: 0.33,
+                               delay: 0,
+                               options: .curveEaseIn) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+            if heigthFromViewToSearch.constant == keyboardSize.height {
+
+                searchView.layer.cornerRadius = searchView.frame.height / 2
+                heigthFromViewToSearch.constant = 50
+                searchViewWidthConstraint.constant = 250
+                buttonWidthConstraint.constant = 50
+                addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+
+                UIView.animate(withDuration: 0.33,
+                               delay: 0,
+                               options: .curveEaseIn) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
     }
 
 }
@@ -88,6 +165,11 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
         let taskList = sortedPlanList[indexPath.row]
         cell.configure(with: taskList)
 
+        cell.check = {
+            let currentList = self.sortedPlanList[indexPath.row]
+            StorageManager.shared.done(taskList: currentList)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
         return cell
     }
 
@@ -96,7 +178,12 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         searchBar.text = ""
+<<<<<<< HEAD
+        searchBarTextDidEndEditing(searchBar)
+=======
+>>>>>>> master
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -134,7 +221,7 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
                                             title: "Done") { (_, _, isDone) in
 
             StorageManager.shared.done(taskList: currentList)
-            tableView.reloadData()
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
         }
 
@@ -173,7 +260,6 @@ extension TaskListsViewController: UISearchBarDelegate {
         guard !searchText.isEmpty else {
             sortedPlanList = planList
             tasksTableView.reloadData()
-            searchBar.endEditing(true)
             return
         }
 
@@ -195,7 +281,7 @@ extension TaskListsViewController: UISearchBarDelegate {
                 searchBar.resignFirstResponder()
             }
         }
-        
+
         tasksTableView.reloadData()
     }
 }
@@ -218,6 +304,7 @@ extension TaskListsViewController {
         self.present(alert, animated: true)
     }
 }
+
 
 
 

@@ -1,8 +1,8 @@
 //
-//  TaskTableViewController.swift
+//  TaskViewController.swift
 //  With a Plan
 //
-//  Created by mac on 19.07.2020.
+//  Created by mac on 10.10.2020.
 //  Copyright © 2020 Oleg Stasiw. All rights reserved.
 //
 
@@ -10,14 +10,20 @@ import UIKit
 import RealmSwift
 import UserNotifications
 
-class TaskTableViewController: UITableViewController {
-    
+class TaskViewController: UIViewController {
+
+    @IBOutlet weak var taskTableView: UITableView!
+    @IBOutlet weak var addButton: UIButton!
+
     //MARK: - Public Properties
     var currentList: TaskList!
 
     //MARK: - Private Properties
     private var currentTasks: Results<Task>!
     private var completedTasks: Results<Task>!
+    private var indexPathForCurrentTasks = IndexPath()
+    private var indePathForCompletedTasks = IndexPath()
+    private var destinationIndexRow = IndexPath()
 
     //MARK: - Live Cycles Methods
     override func viewDidLoad() {
@@ -29,12 +35,17 @@ class TaskTableViewController: UITableViewController {
 
         currentTasks = currentList.tasks.filter("isComplete = false").sorted(byKeyPath: "date")
         completedTasks = currentList.tasks.filter("isComplete = true").sorted(byKeyPath: "date")
+
+        taskTableView.delegate = self
+        taskTableView.dataSource = self
+        addButton.layer.cornerRadius = addButton.frame.height / 2
+        addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 29, bottom: 4, right: 29)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.applicationIconBadgeNumber = 0
-        tableView.reloadData()
+        taskTableView.reloadData()
     }
 
     //MARK: - Navigation
@@ -57,27 +68,27 @@ class TaskTableViewController: UITableViewController {
 
     //MARK: - Private Methods
     private func registerCell() {
-        tableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "TaskTableViewCell")
-        tableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "TaskTableViewCell")
+        taskTableView.register(TaskTableViewCell.self, forCellReuseIdentifier: "TaskTableViewCell")
+        taskTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "TaskTableViewCell")
     }
 }
 
 // MARK: - Table view data source
-extension TaskTableViewController {
+extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         section == 0 ? currentTasks.count : completedTasks.count
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? "CURRENT TASKS" : "COMPLETED TASKS"
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
 
@@ -86,25 +97,50 @@ extension TaskTableViewController {
             : completedTasks[indexPath.row]
 
         cell.configure(with: task)
+        
+        cell.check = {
+
+
+
+            let isCompleted = !task.isComplete
+
+            cell.checkImageView.isHidden = isCompleted ? false : true
+
+            self.indexPathForCurrentTasks = IndexPath(row: self.currentTasks.count , section: 0)
+            self.indePathForCompletedTasks = IndexPath(row: self.completedTasks.count , section: 1)
+
+            StorageManager.shared.done(task: task)
+
+            self.destinationIndexRow = indexPath.section == 0
+                ? self.indePathForCompletedTasks
+                : self.indexPathForCurrentTasks
+
+            UITableView.transition(with: self.taskTableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.taskTableView.reloadData()
+            })
+
+            StorageManager.shared.changeDate(task: task)
+        }
 
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         60
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let task = indexPath.section == 0
             ? currentTasks[indexPath.row]
             : completedTasks[indexPath.row]
 
         self.performSegue(withIdentifier: "DetailTaskViewController", sender: task)
-
     }
 
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let task = indexPath.section == 0
             ? currentTasks[indexPath.row]
@@ -112,6 +148,7 @@ extension TaskTableViewController {
 
         let doneAction = UIContextualAction(style: .normal,
                                             title: indexPath.section == 0 ? "Done" : "Return") { (_, _, isDone) in
+
             guard let cell = tableView.cellForRow(at: indexPath) as? TaskTableViewCell else { return }
 
             let isCompleted = !task.isComplete
@@ -120,17 +157,17 @@ extension TaskTableViewController {
 
             StorageManager.shared.done(task: task)
 
-            let indexPathForCurrentTasks = IndexPath(row: self.currentTasks.count - 1, section: 0)
-            let indePathForCompletedTasks = IndexPath(row: self.completedTasks.count - 1, section: 1)
+            self.indexPathForCurrentTasks = IndexPath(row: self.currentTasks.count - 1, section: 0)
+            self.indePathForCompletedTasks = IndexPath(row: self.completedTasks.count - 1, section: 1)
 
-            let destinationIndexRow = indexPath.section == 0
-                ? indePathForCompletedTasks
-                : indexPathForCurrentTasks
+            self.destinationIndexRow = indexPath.section == 0
+                ? self.indePathForCompletedTasks
+                : self.indexPathForCurrentTasks
 
-            UIView.transition(with: tableView,
-                              duration: 0.35,
-                              options: .transitionCrossDissolve,
-                              animations: { self.tableView.moveRow(at: indexPath, to: destinationIndexRow) })
+            UITableView.transition(with: self.taskTableView, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.taskTableView.moveRow(at: indexPath, to: self.destinationIndexRow)
+            })
+
 
             StorageManager.shared.changeDate(task: task)
 
@@ -142,7 +179,7 @@ extension TaskTableViewController {
         return UISwipeActionsConfiguration(actions: [doneAction])
     }
 
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
         let task = indexPath.section == 0
             ? currentTasks[indexPath.row]
@@ -159,18 +196,14 @@ extension TaskTableViewController {
 }
 
 //MARK: - ALERT
-extension TaskTableViewController {
+extension TaskViewController {
     private func showAlert(task: Task, indexPath: IndexPath) {
         let alert = AlertController(title: "Warning", message: "Do you want to delete this task?", preferredStyle: UIAlertController.Style.alert)
         alert.action(firstTitle: "Yes", secondTitle: "No") {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.id])
             StorageManager.shared.delete(task: task)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.taskTableView.deleteRows(at: [indexPath], with: .automatic)
         }
         self.present(alert, animated: true)
     }
 }
-
-
-
-

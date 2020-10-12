@@ -15,24 +15,30 @@ class TaskListsTableViewCell: UITableViewCell {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var checkImageView: UIImageView!
 
+    //MARK: - Public Properties
+    var check : (() -> Void)? = nil
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         colorView.layer.cornerRadius = colorView.frame.height / 2
     }
 
+    //MARK: - IBAction
+    @IBAction func checkButtonPress(_ sender: Any) {
+        if let button = check {
+            button()
+        }
+    }
     //MARK: - Public Methods
     func configure(with taskList: TaskList) {
         let currentTasks = taskList.tasks.filter("isComplete = false")
         let completedTasks = taskList.tasks.filter("isComplete = true")
 
         if !currentTasks.isEmpty {
-            accessoryType = .none
             checkImageView.isHidden = true
         } else if !completedTasks.isEmpty {
             checkImageView.isHidden = false
-            accessoryType = .checkmark
         } else {
-            accessoryType = .none
             checkImageView.isHidden = true
         }
 
@@ -43,5 +49,6 @@ class TaskListsTableViewCell: UITableViewCell {
                                             blue: CGFloat(taskList.blueColor),
                                             alpha: 1)
     }
+
     
 }
