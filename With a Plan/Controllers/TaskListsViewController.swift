@@ -165,7 +165,7 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
         let taskList = sortedPlanList[indexPath.row]
         cell.configure(with: taskList)
 
-        cell.make = {
+        cell.check = {
             let currentList = self.sortedPlanList[indexPath.row]
             StorageManager.shared.done(taskList: currentList)
             tableView.reloadRows(at: [indexPath], with: .automatic)

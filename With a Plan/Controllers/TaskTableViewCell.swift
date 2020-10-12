@@ -19,7 +19,7 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var reminderImage: UIImageView!
     
     //MARK: - Public Properties
-    var make : (() -> Void)? = nil
+    var check : (() -> Void)? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,8 +28,8 @@ class TaskTableViewCell: UITableViewCell {
     }
 
     //MARK: - IBAction
-    @IBAction func but(_ sender: Any) {
-        if let button = make {
+    @IBAction func checkButtonPress(_ sender: Any) {
+        if let button = check {
             button()
         }
     }

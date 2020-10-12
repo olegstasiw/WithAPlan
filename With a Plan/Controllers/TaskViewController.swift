@@ -98,7 +98,13 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
 
         cell.configure(with: task)
         
-        cell.make = {
+        cell.check = {
+
+
+
+            let isCompleted = !task.isComplete
+
+            cell.checkImageView.isHidden = isCompleted ? false : true
 
             self.indexPathForCurrentTasks = IndexPath(row: self.currentTasks.count , section: 0)
             self.indePathForCompletedTasks = IndexPath(row: self.completedTasks.count , section: 1)
@@ -125,6 +131,8 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let task = indexPath.section == 0
             ? currentTasks[indexPath.row]
             : completedTasks[indexPath.row]
@@ -140,6 +148,12 @@ extension TaskViewController: UITableViewDelegate, UITableViewDataSource {
 
         let doneAction = UIContextualAction(style: .normal,
                                             title: indexPath.section == 0 ? "Done" : "Return") { (_, _, isDone) in
+
+            guard let cell = tableView.cellForRow(at: indexPath) as? TaskTableViewCell else { return }
+
+            let isCompleted = !task.isComplete
+
+            cell.checkImageView.isHidden = isCompleted ? false : true
 
             StorageManager.shared.done(task: task)
 

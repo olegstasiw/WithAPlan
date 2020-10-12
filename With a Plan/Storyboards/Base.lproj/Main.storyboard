@@ -1357,7 +1357,7 @@
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="barColor"/>
     <resources>
-        <image name="plus" width="300" height="300"/>
+        <image name="plus" width="260" height="260"/>
         <namedColor name="barColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>
