@@ -33,7 +33,6 @@ class TaskListsViewController: UIViewController{
         registerCell()
         setUI()
         createObserver()
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -180,10 +179,7 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         searchBar.text = ""
-<<<<<<< HEAD
         searchBarTextDidEndEditing(searchBar)
-=======
->>>>>>> master
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
