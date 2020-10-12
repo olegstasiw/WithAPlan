@@ -13,13 +13,13 @@
 		040BE11E24C45F3100580538 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 040BE11D24C45F3100580538 /* Assets.xcassets */; };
 		040BE12124C45F3100580538 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 040BE11F24C45F3100580538 /* LaunchScreen.storyboard */; };
 		040BE12D24C4652500580538 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BE12C24C4652500580538 /* Task.swift */; };
-		040BE12F24C46DF800580538 /* TaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BE12E24C46DF800580538 /* TaskTableViewController.swift */; };
 		040BE13124C46E1500580538 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BE13024C46E1500580538 /* AddTaskViewController.swift */; };
 		040BE13324C46E2F00580538 /* AddTaskListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040BE13224C46E2F00580538 /* AddTaskListsViewController.swift */; };
 		041142732513BE17002C1D9D /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041142722513BE17002C1D9D /* AlertController.swift */; };
 		0422E0A32519F23F0034479E /* MyColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0422E0A22519F23F0034479E /* MyColors.swift */; };
 		042EE548251B502400CE18D5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042EE547251B502400CE18D5 /* Extensions.swift */; };
 		0433927F251618B80077939E /* EditTaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0433927E251618B80077939E /* EditTaskListViewController.swift */; };
+		04347A072532312A004317DC /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04347A062532312A004317DC /* TaskViewController.swift */; };
 		0435006525178BD200F2D9D5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0435006425178BD200F2D9D5 /* Notification.swift */; };
 		045C0D82251DDC7300FB82A7 /* TaskListsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045C0D81251DDC7300FB82A7 /* TaskListsTableViewCell.swift */; };
 		047A01442514AF3A00CB7CF7 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047A01432514AF3A00CB7CF7 /* ColorCell.swift */; };
@@ -43,13 +43,13 @@
 		040BE12024C45F3100580538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		040BE12224C45F3100580538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		040BE12C24C4652500580538 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		040BE12E24C46DF800580538 /* TaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewController.swift; sourceTree = "<group>"; };
 		040BE13024C46E1500580538 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		040BE13224C46E2F00580538 /* AddTaskListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskListsViewController.swift; sourceTree = "<group>"; };
 		041142722513BE17002C1D9D /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		0422E0A22519F23F0034479E /* MyColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyColors.swift; sourceTree = "<group>"; };
 		042EE547251B502400CE18D5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0433927E251618B80077939E /* EditTaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskListViewController.swift; sourceTree = "<group>"; };
+		04347A062532312A004317DC /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
 		0435006425178BD200F2D9D5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		045C0D81251DDC7300FB82A7 /* TaskListsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListsTableViewCell.swift; sourceTree = "<group>"; };
 		047A01432514AF3A00CB7CF7 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 			children = (
 				048010D724C4CEC000915CFA /* TaskListsViewController.swift */,
 				045C0D81251DDC7300FB82A7 /* TaskListsTableViewCell.swift */,
-				040BE12E24C46DF800580538 /* TaskTableViewController.swift */,
+				04347A062532312A004317DC /* TaskViewController.swift */,
 				048010E324C4DE9500915CFA /* TaskTableViewCell.swift */,
 				040BE13224C46E2F00580538 /* AddTaskListsViewController.swift */,
 				040BE13024C46E1500580538 /* AddTaskViewController.swift */,
@@ -302,7 +302,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				040BE12F24C46DF800580538 /* TaskTableViewController.swift in Sources */,
 				0422E0A32519F23F0034479E /* MyColors.swift in Sources */,
 				040BE13124C46E1500580538 /* AddTaskViewController.swift in Sources */,
 				048010E524C4DE9500915CFA /* TaskTableViewCell.swift in Sources */,
@@ -319,6 +318,7 @@
 				047CE64924C8491D0001A381 /* StorageManager.swift in Sources */,
 				045C0D82251DDC7300FB82A7 /* TaskListsTableViewCell.swift in Sources */,
 				040BE11724C45F2C00580538 /* SceneDelegate.swift in Sources */,
+				04347A072532312A004317DC /* TaskViewController.swift in Sources */,
 				048010D824C4CEC000915CFA /* TaskListsViewController.swift in Sources */,
 				0435006525178BD200F2D9D5 /* Notification.swift in Sources */,
 			);

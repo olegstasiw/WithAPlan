@@ -14,16 +14,17 @@ class TaskListsViewController: UIViewController{
     //MARK: - IBOutlets
     @IBOutlet weak var tasksTableView: UITableView!
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var searchView: UIView!
+    @IBOutlet weak var addButton: UIButton!
+
+    @IBOutlet weak var buttonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heigthFromViewToSearch: NSLayoutConstraint!
 
     //MARK: - Private Properties
     private var sortedPlanList = StorageManager.shared.realm.objects(TaskList.self)
     private let planList = StorageManager.shared.realm.objects(TaskList.self)
     private var charactersCount = 0
-    let myButton = UIButton()
-    let myView = UIView()
-
-    var anchor: NSLayoutConstraint?
-    var anchor2: NSLayoutConstraint?
 
     //MARK: - Live Cycles Methods
     override func viewDidLoad() {
@@ -31,120 +32,8 @@ class TaskListsViewController: UIViewController{
         appointDelegates()
         registerCell()
         setUI()
+        createObserver()
 
-        navigationController?.navigationBar.prefersLargeTitles = false
-
-        view.addSubview(myView)
-        myView.translatesAutoresizingMaskIntoConstraints = false
-        myView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 20).isActive = true
-        myView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        myView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
-        myView.widthAnchor.constraint(equalToConstant: view.frame.width ).isActive = true
-        myView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        myView.addSubview(searchBar)
-
-        myButton.setTitle("+", for: .normal)
-
-        myButton.backgroundColor = .systemGreen
-
-        myView.addSubview(myButton)
-        myView.backgroundColor = .gray
-        myView.layer.cornerRadius = 25
-
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        myButton.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.leadingAnchor.constraint(equalTo: myView.leadingAnchor, constant: 50).isActive = true
-        searchBar.trailingAnchor.constraint(equalTo: myButton.trailingAnchor, constant: -50).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: myView.bottomAnchor).isActive = true
-//        searchBar.widthAnchor.constraint(equalToConstant: myView.frame.width - 100).isActive = true
-        searchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-        anchor = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: -50)
-        anchor2 = myButton.trailingAnchor.constraint(equalTo: myView.trailingAnchor, constant: 50)
-        anchor?.isActive = true
-
-        myButton.bottomAnchor.constraint(equalTo: myView.bottomAnchor).isActive = true
-        myButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        myButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        print(self.tasksTableView.frame.origin.y)
-        print(self.view.frame.origin.y)
-
-        searchBar.searchTextField.clearButtonMode = .never
-//        myButton.layer.cornerRadius = 25
-//        searchBar.backgroundColor = .clear
-//        searchBar.layer.cornerRadius = 25
-    }
-
-//    @objc func keyboardWillShow(sender: NSNotification) {
-//        let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-//        self.view.frame.origin.y -= (keyboardSize?.height ?? 0) - 50
-//        self.myButton.frame.origin.x += myButton.frame.width
-//
-//
-//
-//
-//    }
-//    @objc func keyboardWillHide(sender: NSNotification) {
-//        self.view.frame.origin.y = 0
-//        self.myButton.frame.origin.x -= myButton.frame.width
-//
-//    }
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-
-                self.view.frame.origin.y -= keyboardSize.height - 50
-                self.tasksTableView.frame.origin.y += keyboardSize.height - 50
-                self.myButton.frame.origin.x += myButton.frame.width
-
-                anchor?.isActive = false
-                anchor2?.isActive = true
-                print(self.tasksTableView.frame.origin.y)
-                print(self.view.frame.origin.y)
-
-//                UIView.animate(withDuration: 5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
-//                    self.view.constraints.forEach { constraint in
-//                        if constraint.firstAttribute == .top {
-//                            constraint.constant = keyboardSize.height / 2 + 20
-//
-//                        }
-//                    }
-//                }
-
-
-
-//                navigationController?.navigationBar.prefersLargeTitles = false
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-
-        if self.view.frame.origin.y != 0 {
-
-
-            self.view.frame.origin.y = 0
-            self.tasksTableView.frame.origin.y = 92
-            self.myButton.frame.origin.x -= myButton.frame.width
-            anchor2?.isActive = false
-            anchor?.isActive = true
-            print(self.tasksTableView.frame.origin.y)
-            print(self.view.frame.origin.y)
-//            view.constraints.forEach { constraint in
-//                if constraint.firstAttribute == .top {
-//                    constraint.constant -= (keyboardSize?.height ?? 0) / 2 + 20
-//                }
-//            }
-
-
-
-//            navigationController?.navigationBar.prefersLargeTitles = true
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -165,7 +54,7 @@ class TaskListsViewController: UIViewController{
         } else {
             guard let indexPath = tasksTableView.indexPathForSelectedRow else { return }
             let taskList = sortedPlanList[indexPath.row]
-            let segueViewController = segue.destination as! TaskTableViewController
+            let segueViewController = segue.destination as! TaskViewController
             segueViewController.currentList = taskList
         }
     }
@@ -183,13 +72,82 @@ class TaskListsViewController: UIViewController{
     }
 
     private func setUI() {
-//        navigationItem.titleView = searchBar
-
         view.backgroundColor = .systemGroupedBackground
 
         navigationController?.navigationBar.tintColor = UIColor.init(named: "barColor");
         navigationController?.navigationBar.barTintColor = UIColor.init(named: "backgroundColor")
         navigationController?.navigationBar.barStyle = UIBarStyle.default;
+        setUIForSearchView()
+    }
+
+    private func setUIForSearchView() {
+        searchView.layer.cornerRadius = searchView.frame.height / 2
+        searchView.backgroundColor = .systemGray4
+        searchBar.layer.borderColor = UIColor.systemGray4.cgColor
+        searchBar.searchTextField.backgroundColor = UIColor.systemGray4
+        searchBar.searchTextField.clearButtonMode = .never
+        searchBar.layer.borderWidth = 1
+        UISearchBar.appearance().tintColor = UIColor.init(named: "barColor")
+
+        addButton.backgroundColor = UIColor.systemGray4
+        addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        addButton.layer.cornerRadius = addButton.frame.height / 3
+
+    }
+
+    private func createObserver() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedFromBackground), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc private func appMovedFromBackground() {
+        DispatchQueue.main.async {
+            self.searchBar.layer.borderColor = UIColor.systemGray4.cgColor
+        }
+    }
+
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if heigthFromViewToSearch.constant == 50 {
+
+                searchView.layer.cornerRadius = 0
+                heigthFromViewToSearch.constant = keyboardSize.height
+                searchViewWidthConstraint.constant = view.frame.width
+                buttonWidthConstraint.constant = 0
+                addButton.imageEdgeInsets = UIEdgeInsets(top: 0 , left: 0, bottom: 0, right: 0)
+
+                UIView.animate(withDuration: 0.33,
+                               delay: 0,
+                               options: .curveEaseIn) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+
+            if heigthFromViewToSearch.constant == keyboardSize.height {
+
+                searchView.layer.cornerRadius = searchView.frame.height / 2
+                heigthFromViewToSearch.constant = 50
+                searchViewWidthConstraint.constant = 250
+                buttonWidthConstraint.constant = 50
+                addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+
+                UIView.animate(withDuration: 0.33,
+                               delay: 0,
+                               options: .curveEaseIn) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
     }
 
 }
@@ -207,6 +165,11 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
         let taskList = sortedPlanList[indexPath.row]
         cell.configure(with: taskList)
 
+        cell.make = {
+            let currentList = self.sortedPlanList[indexPath.row]
+            StorageManager.shared.done(taskList: currentList)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
         return cell
     }
 
@@ -215,8 +178,9 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         searchBar.text = ""
-//        sortedPlanList = planList
+        searchBarTextDidEndEditing(searchBar)
         searchBar.endEditing(true)
         performSegue(withIdentifier: "tasksSegue", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -254,7 +218,7 @@ extension TaskListsViewController: UITableViewDelegate, UITableViewDataSource  {
                                             title: "Done") { (_, _, isDone) in
 
             StorageManager.shared.done(taskList: currentList)
-            tableView.reloadData()
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             isDone(true)
         }
 
@@ -293,7 +257,6 @@ extension TaskListsViewController: UISearchBarDelegate {
         guard !searchText.isEmpty else {
             sortedPlanList = planList
             tasksTableView.reloadData()
-            searchBar.endEditing(true)
             return
         }
 
@@ -315,13 +278,6 @@ extension TaskListsViewController: UISearchBarDelegate {
                 searchBar.resignFirstResponder()
             }
         }
-
-
-//        if searchText.isEmpty {
-//               DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                   searchBar.resignFirstResponder()
-//               }
-//           }
 
         tasksTableView.reloadData()
     }
@@ -345,6 +301,7 @@ extension TaskListsViewController {
         self.present(alert, animated: true)
     }
 }
+
 
 
 

@@ -17,12 +17,21 @@ class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var colorView: UIView!
     @IBOutlet weak var checkImageView: UIImageView!
     @IBOutlet weak var reminderImage: UIImageView!
+    
+    //MARK: - Public Properties
+    var make : (() -> Void)? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
         colorView.layer.cornerRadius = colorView.frame.height / 2
         checkImageView.isHidden = true
+    }
 
+    //MARK: - IBAction
+    @IBAction func but(_ sender: Any) {
+        if let button = make {
+            button()
+        }
     }
 
     //MARK: - Public Methods

@@ -17,16 +17,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="planIcon" translatesAutoresizingMaskIntoConstraints="NO" id="QDv-RI-SSl">
-                                <rect key="frame" x="50" y="50" width="314" height="796"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconPng" translatesAutoresizingMaskIntoConstraints="NO" id="QDv-RI-SSl">
+                                <rect key="frame" x="80" y="50" width="254" height="796"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="QDv-RI-SSl" secondAttribute="trailing" constant="50" id="HbG-vs-jHM"/>
+                            <constraint firstAttribute="trailing" secondItem="QDv-RI-SSl" secondAttribute="trailing" constant="80" id="HbG-vs-jHM"/>
                             <constraint firstAttribute="bottom" secondItem="QDv-RI-SSl" secondAttribute="bottom" constant="50" id="XFj-4e-bml"/>
-                            <constraint firstItem="QDv-RI-SSl" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="50" id="pTb-SG-Hdh"/>
+                            <constraint firstItem="QDv-RI-SSl" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="80" id="pTb-SG-Hdh"/>
                             <constraint firstItem="QDv-RI-SSl" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="50" id="ze1-mh-QXu"/>
                         </constraints>
                     </view>
@@ -37,7 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="planIcon" width="1024" height="1024"/>
+        <image name="iconPng" width="515" height="806"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

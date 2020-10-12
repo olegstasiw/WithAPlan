@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -20,42 +21,80 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Ujc-0e-z72">
-                                <rect key="frame" x="0.0" y="44" width="320" height="474"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNK-Ba-YIL">
+                                <rect key="frame" x="35" y="468" width="250" height="50"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5iT-x9-f9k">
+                                        <rect key="frame" x="25" y="0.0" width="200" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cbd-gA-kN6">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
+                                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="50" id="gi4-Gb-NaQ"/>
+                                                    <constraint firstAttribute="height" constant="50" id="rP3-5X-QKj"/>
+                                                </constraints>
+                                                <state key="normal">
+                                                    <imageReference key="image" image="plus" symbolScale="large"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="2HM-TG-XAR" kind="presentation" modalPresentationStyle="fullScreen" id="07W-bv-FNd"/>
+                                                </connections>
+                                            </button>
+                                            <searchBar contentMode="redraw" text="" placeholder="Search" id="vM7-Hz-0Dc">
+                                                <rect key="frame" x="200" y="0.0" width="0.0" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="barTintColor" systemColor="systemGray4Color"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </searchBar>
+                                        </subviews>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <constraints>
+                                    <constraint firstItem="5iT-x9-f9k" firstAttribute="top" secondItem="dNK-Ba-YIL" secondAttribute="top" id="5oC-xb-soM"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="VJe-kR-zXx"/>
+                                    <constraint firstAttribute="trailing" secondItem="5iT-x9-f9k" secondAttribute="trailing" constant="25" id="VbH-ml-Fkw"/>
+                                    <constraint firstAttribute="width" constant="250" id="WuX-M9-nVd"/>
+                                    <constraint firstAttribute="height" constant="50" id="bWD-H8-r1T"/>
+                                    <constraint firstItem="5iT-x9-f9k" firstAttribute="leading" secondItem="dNK-Ba-YIL" secondAttribute="leading" constant="25" id="enN-M7-zDR"/>
+                                    <constraint firstAttribute="bottom" secondItem="5iT-x9-f9k" secondAttribute="bottom" id="xmO-xA-XtJ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sdy-iS-VOl"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="sdy-iS-VOl" firstAttribute="bottom" secondItem="Ujc-0e-z72" secondAttribute="bottom" constant="50" id="F6l-B2-eJu"/>
+                            <constraint firstItem="dNK-Ba-YIL" firstAttribute="centerX" secondItem="Ujc-0e-z72" secondAttribute="centerX" id="7EO-WX-I68"/>
+                            <constraint firstAttribute="bottom" secondItem="dNK-Ba-YIL" secondAttribute="bottom" constant="50" id="QLh-s8-wg0"/>
+                            <constraint firstItem="Ujc-0e-z72" firstAttribute="top" secondItem="sdy-iS-VOl" secondAttribute="top" id="Qkt-lf-E8X"/>
                             <constraint firstItem="sdy-iS-VOl" firstAttribute="trailing" secondItem="Ujc-0e-z72" secondAttribute="trailing" id="jIX-P9-wUJ"/>
                             <constraint firstItem="Ujc-0e-z72" firstAttribute="leading" secondItem="sdy-iS-VOl" secondAttribute="leading" id="p2E-jE-za8"/>
-                            <constraint firstItem="Ujc-0e-z72" firstAttribute="top" secondItem="sdy-iS-VOl" secondAttribute="top" id="s1B-kQ-cDJ"/>
+                            <constraint firstAttribute="bottom" secondItem="Ujc-0e-z72" secondAttribute="bottom" id="uAt-MP-Tar"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="With a Plan" id="NJL-Xn-riR">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="gSc-0u-G22">
-                            <connections>
-                                <segue destination="2HM-TG-XAR" kind="presentation" identifier="" modalPresentationStyle="fullScreen" id="Vwj-PY-QHW"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="With a Plan" id="NJL-Xn-riR"/>
                     <connections>
+                        <outlet property="addButton" destination="Cbd-gA-kN6" id="rN3-TT-53N"/>
+                        <outlet property="buttonWidthConstraint" destination="gi4-Gb-NaQ" id="43l-nv-Uer"/>
+                        <outlet property="heigthFromViewToSearch" destination="QLh-s8-wg0" id="bao-tY-E7U"/>
                         <outlet property="searchBar" destination="vM7-Hz-0Dc" id="1aL-Xy-WR5"/>
+                        <outlet property="searchView" destination="dNK-Ba-YIL" id="XcH-W5-ZHs"/>
+                        <outlet property="searchViewWidthConstraint" destination="WuX-M9-nVd" id="mbH-p5-Lsh"/>
                         <outlet property="tasksTableView" destination="Ujc-0e-z72" id="Htq-JC-p2e"/>
-                        <segue destination="vT1-Pm-E2n" kind="show" identifier="tasksSegue" id="p2i-2X-LtR"/>
                         <segue destination="wie-NF-xYi" kind="presentation" identifier="changeListSegue" modalPresentationStyle="fullScreen" id="CnJ-ZS-obR"/>
+                        <segue destination="zsy-JH-r91" kind="show" identifier="tasksSegue" id="Lza-nL-6cw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L0l-hS-1yu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <searchBar contentMode="redraw" placeholder="Search" id="vM7-Hz-0Dc">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <color key="barTintColor" systemColor="systemGroupedBackgroundColor"/>
-                    <textInputTraits key="textInputTraits"/>
-                </searchBar>
             </objects>
-            <point key="canvasLocation" x="1056" y="-333"/>
+            <point key="canvasLocation" x="1055.072463768116" y="-334.15178571428572"/>
         </scene>
         <!--Add Task Lists View Controller-->
         <scene sceneID="O0I-iK-Raz">
@@ -269,35 +308,6 @@
                 <exit id="sB6-vU-6Cw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4479" y="34"/>
-        </scene>
-        <!--Tasks-->
-        <scene sceneID="Mpp-q4-RtQ">
-            <objects>
-                <tableViewController id="vT1-Pm-E2n" customClass="TaskTableViewController" customModule="With_a_Plan" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="rSe-zJ-NYY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="vT1-Pm-E2n" id="xLG-Sd-PJU"/>
-                            <outlet property="delegate" destination="vT1-Pm-E2n" id="LyR-2n-UHf"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Tasks" id="ODz-FG-P0n">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="sAA-Tv-5fd">
-                            <color key="tintColor" name="barColor"/>
-                            <connections>
-                                <segue destination="C0x-cn-d73" kind="presentation" identifier="createTaskSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="IGa-5c-G1Q"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <segue destination="4qH-Q2-s13" kind="presentation" identifier="DetailTaskViewController" modalPresentationStyle="fullScreen" id="Dvz-wh-YSY"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZP0-qP-rrP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2083" y="34"/>
         </scene>
         <!--Detail Task View Controller-->
         <scene sceneID="bQ8-27-4nC">
@@ -1252,6 +1262,56 @@
             </objects>
             <point key="canvasLocation" x="2855" y="34"/>
         </scene>
+        <!--Task View Controller-->
+        <scene sceneID="ZAu-gt-vUF">
+            <objects>
+                <viewController id="zsy-JH-r91" customClass="TaskViewController" customModule="With_a_Plan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Sfe-Es-cLs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="ke9-vr-snJ">
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ueJ-1e-Rer">
+                                <rect key="frame" x="50" y="468" width="100" height="50"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="DTG-Ru-QQF"/>
+                                    <constraint firstAttribute="height" constant="50" id="p0E-od-UFm"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleColor" systemColor="systemGray4Color"/>
+                                    <imageReference key="image" image="plus" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <segue destination="C0x-cn-d73" kind="presentation" identifier="createTaskSegue" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="zUI-Zc-XXa"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fJG-6x-OV6"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fJG-6x-OV6" firstAttribute="bottom" secondItem="ueJ-1e-Rer" secondAttribute="bottom" constant="50" id="Xd1-GI-qGi"/>
+                            <constraint firstItem="ke9-vr-snJ" firstAttribute="leading" secondItem="fJG-6x-OV6" secondAttribute="leading" id="oU2-Ge-4pR"/>
+                            <constraint firstItem="fJG-6x-OV6" firstAttribute="trailing" secondItem="ke9-vr-snJ" secondAttribute="trailing" id="rld-kR-nT4"/>
+                            <constraint firstAttribute="bottom" secondItem="ke9-vr-snJ" secondAttribute="bottom" id="scz-BC-vtm"/>
+                            <constraint firstItem="ke9-vr-snJ" firstAttribute="top" secondItem="fJG-6x-OV6" secondAttribute="top" id="tut-eI-NA9"/>
+                            <constraint firstItem="ueJ-1e-Rer" firstAttribute="leading" secondItem="fJG-6x-OV6" secondAttribute="leading" constant="50" id="wtJ-hR-E30"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="0Bd-4e-Fny"/>
+                    <connections>
+                        <outlet property="addButton" destination="ueJ-1e-Rer" id="mwD-bx-M24"/>
+                        <outlet property="taskTableView" destination="ke9-vr-snJ" id="bkA-z1-7Tx"/>
+                        <segue destination="4qH-Q2-s13" kind="presentation" identifier="DetailTaskViewController" modalPresentationStyle="fullScreen" id="dsM-Dn-uKw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yRe-mB-e60" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2081" y="33"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="o6Q-sR-3Gu">
             <objects>
@@ -1297,6 +1357,7 @@
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="barColor"/>
     <resources>
+        <image name="plus" width="300" height="300"/>
         <namedColor name="barColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>
@@ -1306,9 +1367,6 @@
         <namedColor name="whiteBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -1345,11 +1403,11 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
