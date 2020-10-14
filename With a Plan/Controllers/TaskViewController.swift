@@ -40,6 +40,7 @@ class TaskViewController: UIViewController {
         taskTableView.dataSource = self
         addButton.layer.cornerRadius = addButton.frame.height / 2
         addButton.imageEdgeInsets = UIEdgeInsets(top: 4, left: 29, bottom: 4, right: 29)
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
